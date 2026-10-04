@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block body %}<div class="wrap"><h1>Career information</h1><p class="mute">Explore career options, required skills and learning resources.</p>
+{% if c %}<div class="cols"><nav class="list card">{% for a in allc %}<a href="{{ url_for('careers', c=a.id) }}" class="{{ 'on' if a.id==c.id }}">{{ a.name }}</a>{% endfor %}</nav>
+<div class="card"><h2>{{ c.name }}</h2><p>{{ c.description }}</p>
+<h3>Required skills</h3>{% for s in skills %}<span class="chip">{{ s }}</span>{% endfor %}
+<h3 style="margin-top:1.2rem">Career opportunities</h3><ul>{% for o in opps %}<li>{{ o }}</li>{% endfor %}</ul>
+<h3>Recommended courses</h3>{% if res %}<ul>{% for r in res %}<li><a href="{{ url_for('go', rid=r.id) }}" target="_blank" rel="noopener">{{ r.title }}</a> <span class="mute">({{ r.provider }})</span></li>{% endfor %}</ul>
+{% else %}<p class="mute">No courses added yet.</p>{% endif %}</div></div>
+{% else %}<p>No careers added yet.</p>{% endif %}</div>{% endblock %}

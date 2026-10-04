@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% set side='student' %}{% block student %}
+<h1>Career assessment</h1>
+<form method="post" id="f" class="card">
+<div class="mute" id="count"></div><div class="progress"><div id="bar"></div></div>
+{% for q in qs %}<fieldset class="q" style="border:0;padding:0;margin:0" {% if not loop.first %}hidden{% endif %}>
+<legend style="font-weight:600;font-size:1.15rem">{{ loop.index }}. {{ q.text }}</legend>
+{% for o in q.options %}<label class="opt"><input type="radio" name="q{{ q.id }}" value="{{ loop.index0 }}">{{ o.t }}</label>{% endfor %}</fieldset>{% endfor %}
+<div class="nav"><button type="button" class="btn o" id="prev">Previous</button><button type="button" class="btn" id="next">Next</button><button class="btn" id="done" hidden>See my results</button></div></form>
+<script>
+const qs=[...document.querySelectorAll('.q')];let i=0;
+function show(){qs.forEach((q,k)=>q.hidden=k!==i);count.textContent=`Question ${i+1} of ${qs.length}`;bar.style.width=((i+1)*100/qs.length)+'%';
+prev.hidden=i===0;next.hidden=i===qs.length-1;done.hidden=i!==qs.length-1}
+prev.onclick=()=>{i--;show()};next.onclick=()=>{i++;show()};show();
+</script>{% endblock %}

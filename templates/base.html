@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}CareerCompass{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body>
+<header class="top"><a class="brand" href="{{ url_for('home') }}">Career<b>Compass</b></a>
+<a class="l" href="{{ url_for('home') }}">Home</a><a class="l" href="{{ url_for('careers') }}">Careers</a><a class="l" href="{{ url_for('resources') }}">Resources</a>
+{% if is_admin %}<a class="l" href="{{ url_for('admin') }}">Admin</a><a class="btn o sm" href="{{ url_for('logout') }}">Log out</a>
+{% elif user %}<a class="l" href="{{ url_for('dashboard') }}">{{ user }}</a><a class="btn o sm" href="{{ url_for('logout') }}">Log out</a>
+{% else %}<a class="btn o sm" href="{{ url_for('login') }}">Log in</a><a class="btn sm" href="{{ url_for('register') }}">Sign up</a>{% endif %}</header>
+{% for m in get_flashed_messages() %}<div class="flash" role="status">{{ m }}</div>{% endfor %}
+{% if side == 'student' %}<div class="shell"><nav class="side"><h4>Student panel</h4>
+{% for ep,label in [('dashboard','Dashboard'),('assessment','Career assessment'),('results','My results'),('careers','Explore careers'),('resources','Courses & resources')] %}
+<a href="{{ url_for(ep) }}" class="{{ 'on' if request.endpoint==ep }}">{{ label }}</a>{% endfor %}</nav><main class="main">{% block student %}{% endblock %}</main></div>
+{% elif side == 'admin' %}<div class="shell"><nav class="side"><h4>Admin panel</h4>
+<a href="{{ url_for('admin') }}" class="{{ 'on' if request.endpoint=='admin' }}">Dashboard</a>
+{% for k,label in [('questions','Manage questions'),('careers','Manage careers'),('resources','Manage resources')] %}
+<a href="{{ url_for('manage',kind=k) }}" class="{{ 'on' if kind==k }}">{{ label }}</a>{% endfor %}
+<a href="{{ url_for('students') }}" class="{{ 'on' if request.endpoint=='students' }}">View students</a>
+<a href="{{ url_for('report') }}">Download report (CSV)</a></nav><main class="main">{% block admin %}{% endblock %}</main></div>
+{% else %}{% block body %}{% endblock %}{% endif %}</body></html>

@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% set side='admin' %}{% block admin %}<h1>Students and responses</h1>
+<table><tr><th>Name</th><th>Email</th><th>Education</th><th>Assessments</th><th>Latest top career</th></tr>
+{% for r in rows %}<tr><td>{{ r.name }}</td><td>{{ r.email }}</td><td>{{ r.education }}</td><td>{{ r.n }}</td><td>{{ r.top or '-' }}</td></tr>
+{% else %}<tr><td colspan="5">No students yet.</td></tr>{% endfor %}</table>{% endblock %}

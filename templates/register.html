@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block body %}<form class="form card" method="post"><h2>Create your account</h2>
+<label>Full name</label><input name="name" required><label>Email</label><input name="email" type="email" required>
+<label>Password</label><input name="password" type="password" minlength="6" required><label>Confirm password</label><input name="confirm" type="password" required>
+<label>Education level</label><select name="education">{% for l in levels %}<option>{{ l }}</option>{% endfor %}</select>
+<button class="btn">Sign up</button><p class="mute">Already registered? <a href="{{ url_for('login') }}">Log in</a></p></form>{% endblock %}

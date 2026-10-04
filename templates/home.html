@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block body %}
+<section class="hero"><h1>Discover your <span>career path</span>. Build your future.</h1>
+<p>A personalised guidance platform that helps students explore careers, assess their interests and skills, and find the right courses.</p>
+<div class="row"><a class="btn" href="{{ url_for('assessment') }}">Take the assessment</a><a class="btn o" href="{{ url_for('careers') }}">Explore careers</a></div>
+<div class="tags"><span>Engineering</span><span>Data Science</span><span>Design</span><span>Management</span><span>Healthcare</span><span>Arts</span></div></section>
+<div class="wrap"><div class="grid">
+<div class="card f"><h3>Career assessment</h3><p class="mute">Answer 10 short questions about your interests.</p></div>
+<div class="card f"><h3>Career information</h3><p class="mute">See roles, skills and opportunities side by side.</p></div>
+<div class="card f"><h3>Courses & resources</h3><p class="mute">Free and paid learning links in one place.</p></div>
+<div class="card f"><h3>Personal results</h3><p class="mute">Get matched careers and the skills to build next.</p></div></div></div>{% endblock %}

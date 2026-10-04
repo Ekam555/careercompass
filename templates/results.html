@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% set side='student' %}{% block student %}
+<h1>Your career assessment result</h1><p class="mute">The careers that best match your answers.</p>
+<div class="grid">{% for it in items %}<div class="card"><div class="pct">{{ it.pct }}%</div><h3>{{ it.c.name }}</h3><p class="mute">{{ it.c.description }}</p>
+<a href="{{ url_for('careers', c=it.c.id) }}">Learn more</a></div>{% endfor %}</div>
+<h3 style="margin-top:2rem">Recommended skills</h3><div class="card">{% for s in skills %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+<p><a class="btn o" href="{{ url_for('assessment') }}">Retake assessment</a></p>{% endblock %}

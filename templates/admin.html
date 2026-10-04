@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% set side='admin' %}{% block admin %}
+<h1>Admin dashboard</h1><div class="grid">{% for n,v in stats %}<div class="card stat"><b>{{ v }}</b>{{ n }}</div>{% endfor %}</div>
+<div class="grid" style="margin-top:1rem"><div class="card"><h3>Popular career interests</h3>
+{% for r in pop %}<div class="bar"><span>{{ r.n }}</span><i style="width:{{ r.c*30 }}px"></i><span>{{ r.c }}</span></div>{% else %}<p class="mute">No assessments yet.</p>{% endfor %}</div>
+<div class="card"><h3>Students by education level</h3>
+{% for r in edu %}<div class="bar"><span>{{ r.n }}</span><i style="width:{{ r.c*30 }}px"></i><span>{{ r.c }}</span></div>{% else %}<p class="mute">No students yet.</p>{% endfor %}</div></div>{% endblock %}

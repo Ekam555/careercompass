@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block body %}<div class="wrap"><h1>Learning resources</h1><p class="mute">Useful resources to build your skills and career knowledge.</p>
+<div class="pills">{% for x in types %}<a href="{{ url_for('resources', type=x) }}" class="{{ 'on' if x==t }}">{{ x }}</a>{% endfor %}</div>
+<div class="grid">{% for r in rows %}<div class="card"><h3>{{ r.title }}</h3><p class="mute">{{ r.provider }} · {{ r.type }} · {{ r.cost }}</p>
+<a class="btn sm" href="{{ url_for('go', rid=r.id) }}" target="_blank" rel="noopener">View</a></div>
+{% else %}<p>No resources in this category yet.</p>{% endfor %}</div></div>{% endblock %}
