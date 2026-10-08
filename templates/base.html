@@ -4,7 +4,7 @@
 <a class="l" href="{{ url_for('home') }}">Home</a><a class="l" href="{{ url_for('careers') }}">Careers</a><a class="l" href="{{ url_for('resources') }}">Resources</a>
 {% if is_admin %}<a class="l" href="{{ url_for('admin') }}">Admin</a><a class="btn o sm" href="{{ url_for('logout') }}">Log out</a>
 {% elif user %}<a class="l" href="{{ url_for('dashboard') }}">{{ user }}</a><a class="btn o sm" href="{{ url_for('logout') }}">Log out</a>
-{% else %}<a class="btn o sm" href="{{ url_for('login') }}">Log in</a><a class="btn sm" href="{{ url_for('register') }}">Sign up</a>{% endif %}</header>
+{% else %}<a class="btn o sm" href="{{ url_for('login') }}">Log in</a><a class="btn sm" href="{{ url_for('register') }}">Sign up</a><a class="btn o sm" href="{{ url_for('admin_login') }}">Admin login</a>{% endif %}</header>
 {% for m in get_flashed_messages() %}<div class="flash" role="status">{{ m }}</div>{% endfor %}
 {% if side == 'student' %}<div class="shell"><nav class="side"><h4>Student panel</h4>
 {% for ep,label in [('dashboard','Dashboard'),('assessment','Career assessment'),('results','My results'),('careers','Explore careers'),('resources','Courses & resources')] %}
