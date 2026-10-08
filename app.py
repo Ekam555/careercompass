@@ -81,7 +81,7 @@ RESOURCES = [
  ("Intro to Cybersecurity","Cisco Networking Academy","Courses","Free","https://www.netacad.com","Cybersecurity"),
  ("Google UX Design Basics","Google","Courses","Paid","https://grow.google/certificates","UI/UX Design"),
  ("National Scholarship Portal","Government of India","Scholarships","Free","https://scholarships.gov.in",None),
- ("Internshala","Internshala","Internships","Free","https://internshala.com",None),
+ 
 ]
 
 def db():
