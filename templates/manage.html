@@ -6,7 +6,7 @@
 {% elif kind=='careers' %}<label>Name</label><input name="name" required><label>Description</label><input name="description" required>
 <label>Opportunities (comma separated)</label><input name="opportunities"><label>Skills (comma separated)</label><input name="skills">
 {% else %}<label>Title</label><input name="title" required><label>Provider</label><input name="provider">
-<label>Type</label><select name="type"><option>Courses</option><option>Websites</option><option>Videos</option><option>Articles</option><option>Internships</option></select>
+<label>Type</label><select name="type"><option>Courses</option><option>Websites</option><option>Videos</option><option>Articles</option></select>
 <label>Cost</label><select name="cost"><option>Free</option><option>Paid</option></select><label>URL</label><input name="url" type="url" required>
 <label>Related career</label><select name="career_id"><option value="">None</option>{% for c in cs %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}</select>{% endif %}
 <button class="btn" style="margin-top:1rem">Add {{ kind[:-1] }}</button></form>
