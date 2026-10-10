@@ -11,8 +11,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "change-this-secret")
 DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "careercompass.db")
-ADMIN_USER = os.environ.get("ADMIN_USER", "admin")
-ADMIN_PASS = os.environ.get("ADMIN_PASS", "admin123")
+ADMIN_USER = os.environ.get("ADMIN_USER", "omkar")
+ADMIN_PASS = os.environ.get("ADMIN_PASS", "omkar123")
 LEVELS = ["School", "Diploma", "Undergraduate", "Postgraduate", "Other"]
 
 SCHEMA = """
