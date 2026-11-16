@@ -7,8 +7,18 @@ from functools import wraps
 from flask import (Flask, g, render_template, request, redirect, url_for,
                    session, flash, abort, Response)
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
+
+# Rate limiter
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri=os.environ.get("RATELIMIT_STORAGE_URL", "memory://"),
+)
 app.secret_key = os.environ.get("SECRET_KEY", "change-this-secret")
 DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "careercompass.db")
 ADMIN_USER = os.environ.get("ADMIN_USER", "omkar")
@@ -135,6 +145,7 @@ def home():
     return render_template("home.html")
 
 @app.route("/register", methods=["GET", "POST"])
+@limiter.limit("5 per minute")
 def register():
     if request.method == "POST":
         f = request.form
@@ -152,6 +163,7 @@ def register():
     return render_template("register.html", levels=LEVELS)
 
 @app.route("/login", methods=["GET", "POST"])
+@limiter.limit("10 per minute")
 def login():
     if request.method == "POST":
         s = db().execute("SELECT * FROM students WHERE email=?", (request.form["email"].strip().lower(),)).fetchone()
@@ -167,6 +179,7 @@ def logout():
 
 @app.route("/assessment", methods=["GET", "POST"])
 @student_required
+@limiter.limit("3 per minute")
 def assessment():
     qs = [dict(id=q["id"], text=q["text"], options=json.loads(q["options"]))
           for q in db().execute("SELECT * FROM questions ORDER BY id")]
@@ -228,6 +241,7 @@ def resources():
                            types=["All", "Courses", "Websites", "Videos", "Articles", "Scholarships", "Internships"])
 
 @app.route("/go/<int:rid>")
+@limiter.limit("30 per minute")
 def go(rid):
     r = db().execute("SELECT url FROM resources WHERE id=?", (rid,)).fetchone() or abort(404)
     if "sid" in session:
@@ -246,6 +260,7 @@ def dashboard():
 
 # ---------------- admin side ----------------
 @app.route("/admin/login", methods=["GET", "POST"])
+@limiter.limit("5 per minute")
 def admin_login():
     if request.method == "POST":
         if request.form["username"] == ADMIN_USER and request.form["password"] == ADMIN_PASS:
@@ -265,6 +280,7 @@ def admin():
 
 @app.route("/admin/<kind>", methods=["GET", "POST"])
 @admin_required
+@limiter.limit("20 per minute", methods=["POST"])
 def manage(kind):
     if kind not in ("questions", "careers", "resources"): abort(404)
     f = request.form
@@ -289,6 +305,7 @@ def manage(kind):
 
 @app.route("/admin/<kind>/<int:i>/delete", methods=["POST"])
 @admin_required
+@limiter.limit("10 per minute")
 def delete(kind, i):
     if kind not in ("questions", "careers", "resources"): abort(404)
     if kind == "careers": db().execute("DELETE FROM skills WHERE career_id=?", (i,))
@@ -314,6 +331,10 @@ def report():
         w.writerow(list(r))
     return Response(out.getvalue(), mimetype="text/csv",
                     headers={"Content-Disposition": "attachment; filename=careercompass_report.csv"})
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return render_template("429.html", retry_after=e.retry_after), 429
 
 init_db()
 if __name__ == "__main__":
