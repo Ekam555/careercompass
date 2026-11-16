@@ -23,9 +23,20 @@ git push -u origin main
 - New → Web Service → Connect GitHub repo
 - Build Command: `pip install -r requirements.txt`
 - Start Command: `gunicorn app:app`
-- Add env vars: `SECRET_KEY` (auto-generate), `ADMIN_USER`, `ADMIN_PASS`
+- Add env vars:
+  - `SECRET_KEY` (auto-generate)
+  - `ADMIN_USER`
+  - `ADMIN_PASS`
+  - `DATABASE_URL` (auto-provided if you add a PostgreSQL database)
+  - `RATELIMIT_STORAGE_URL` (see below)
 
-3. Done! Your app at `https://careercompass.onrender.com`
+3. **For production rate limiting** (recommended):
+   - Add a **Redis** instance on Render (free tier available)
+   - Copy the **Internal Connection URL** (starts with `rediss://`)
+   - Add as env var: `RATELIMIT_STORAGE_URL=<that-redis-url>`
+   - Without this, rate limits reset on each deploy (uses in-memory storage)
+
+4. Done! Your app at `https://careercompass.onrender.com`
 
 ## Admin Login
 - URL: `/admin/login`
