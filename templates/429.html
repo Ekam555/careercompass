@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Too Many Requests - CareerCompass{% endblock %}
+{% block body %}
+<div class="wrap card" style="text-align:center;max-width:400px;margin:4rem auto">
+  <h1>Too Many Requests</h1>
+  <p>Please slow down. Try again in {{ retry_after }} seconds.</p>
+  <a class="btn" href="{{ url_for('home') }}">Go Home</a>
+</div>
+{% endblock %}
